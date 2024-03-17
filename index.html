@@ -1,0 +1,77 @@
+<DOCTYPE html>
+<html>
+    <head><title id="ttl">Random number genarator</title>
+        <style>
+            #inp{
+                position: absolute;
+                width:50px;
+            }
+            #inp2{
+                position: absolute;
+                width:50px;
+                margin-left: 50px;
+            }
+            #holder{
+                list-style-type: none;
+                visibility:hidden;
+                position: absolute;
+                margin: 0;
+                padding: 0;
+                width:35%;
+                height: 11%;
+                margin-top: 15%;
+                margin-left: 15%;
+                border-style: solid;
+                border-width: 2px;
+                border-color: rgb(31, 31, 71);
+                font-size: 300%;
+                color:#491414;
+                text-align: center;
+                border-radius: 120px 120px 120px 120px;
+                background-color: #1cc0dd;
+            }
+            #generate{
+                list-style-type: none;
+                position: absolute;
+                margin: 0;
+                padding: 0;
+                width:15%;
+                height: 11%;
+                margin-top: 15%;
+                margin-left: 40%;
+                border-style: solid;
+                border-width: 2px;
+                border-color: rgb(161, 8, 221);
+                font-size: 200%;
+                color:#4b463d;
+                text-align: center;
+                border-radius: 120px 120px 120px 120px;
+                background-color: #50d487;
+            }
+        </style>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body id="bd">
+        <div id="holder"></div><input id='inp'><input id='inp2'><button id="generate" onclick="generate()">generate</button>
+        <script>
+            function generate(){
+                if(status==0){
+                    alert('You are not connected to server!');
+                }
+                document.getElementById('holder').style.visibility='visible';
+                document.getElementById('generate').style.marginLeft='55%';
+                socket.emit('generate', document.getElementById('inp').value+','+document.getElementById('inp2').value);
+            }
+            var status=0;
+            var randomnumber='';
+            var socket = io();
+            socket.on('online', function(data){
+                    status=1;
+                });
+            socket.on('generate', function(data){
+                    randomnumber=data;
+                    document.getElementById('holder').innerHTML=randomnumber;
+                });
+            </script>
+    </body>
+</html>
